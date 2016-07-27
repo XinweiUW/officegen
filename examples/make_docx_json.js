@@ -69,7 +69,15 @@ var tableStyle = {
 	tableFontFamily: "Comic Sans MS"
 }
 
-var data = [[{ align: 'right' }, {
+var tableData = [{
+	type: "table",
+	val: table,
+	opt: tableStyle
+}]
+
+var data = 
+[
+	[{ align: 'right' }, {
 		type: "text",
 		val: "Simple"
 	}, {
@@ -153,9 +161,10 @@ var data = [[{ align: 'right' }, {
 	}
 ]
 
-var pObj = docx.createByJson(data);
+var pObj = docx.createByJson(tableData);
+console.log("make_docx_json.js pObj", pObj);
 
-var out = fs.createWriteStream ( 'out.docx' );
+var out = fs.createWriteStream ( 'out_table_json.docx' );
 
 out.on ( 'error', function ( err ) {
 	console.log ( err );

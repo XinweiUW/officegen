@@ -143,7 +143,7 @@ var tableStyle = {
 
 var pObj = docx.createTable (table, tableStyle);
 
-var out = fs.createWriteStream ( 'out.docx' );
+var out = fs.createWriteStream ( 'make_docx.docx' );
 
 out.on ( 'error', function ( err ) {
 	console.log ( err );
