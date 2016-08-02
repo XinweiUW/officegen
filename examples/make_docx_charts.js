@@ -1,30 +1,27 @@
 var officegen = require('../lib/index.js');
 var OfficeChart = require('../lib/officechart.js');
 var _ = require('lodash');
-var async = require('async');
+var async = require ( 'async' );
 
 var fs = require('fs');
 var path = require('path');
 
-var pptx = officegen('pptx');
+var docx = officegen ( 'docx' );
 
-var slide;
+// Remove this comment in case of debugging Officegen:
+// officegen.setVerboseMode ( true );
+docx.on ( 'finalize', function ( written ) {
+			console.log ( 'Finish to create Word file.\nTotal bytes created: ' + written + '\n' );
+		});
+
+docx.on ( 'error', function ( err ) {
+			console.log ( err );
+		});
+
 var pObj;
 
-pptx.on('finalize', function (written) {
-  console.log('Finish to create a PowerPoint file.\nTotal bytes created: ' + written + '\n');
-
-  // clear the temporatory files
-});
-
-pptx.on('error', function (err) {
-  console.log(err);
-});
-
-pptx.setDocTitle('Sample PPTX Document');
 
 
-// this shows how one can get the base XML and modify it directly
 var chart0 = new OfficeChart({
   title: 'Dynamically generated',
   renderType: 'bar',
@@ -338,13 +335,10 @@ var chartsData = [
   }
 ];
 
-
 function generateOneChart(chartInfo, callback) {
 
-  slide = pptx.makeNewSlide();
-  slide.name = 'OfficeChart slide';
-  slide.back = 'ffffff';
-  slide.addChart(chartInfo, callback, callback);
+  pObj = docx.createP();
+  pObj.addChart(chartInfo, callback, callback);
 }
 
 function generateCharts(callback) {
@@ -353,13 +347,13 @@ function generateCharts(callback) {
 
 
 function finalize() {
-  var out = fs.createWriteStream('out_charts.pptx');
+  var out = fs.createWriteStream('make_docx_charts.docx');
 
   out.on('error', function (err) {
     console.log(err);
   });
 
-  pptx.generate(out);
+  docx.generate(out);
 }
 
 async.series([
