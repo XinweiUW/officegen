@@ -162,7 +162,7 @@ var data =
 ]
 
 var pObj = docx.createByJson(tableData);
-console.log("make_docx_json.js pObj", pObj);
+//console.log("make_docx_json.js pObj", pObj);
 
 var out = fs.createWriteStream ( 'out_table_json.docx' );
 
